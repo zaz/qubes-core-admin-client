@@ -84,6 +84,10 @@ class DeviceCollection:
             (obtained from :py:meth:`assignments`)
         """
         self._remove(assignment, "detach")
+        # refresh device list
+        assignment.backend_domain \
+            .run_service('qubes.VMShell', user='root') \
+            .communicate(input=b'partprobe\n')
 
     def assign(self, assignment: DeviceAssignment) -> None:
         """
